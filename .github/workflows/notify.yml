@@ -1,0 +1,22 @@
+name: Instantly reply notifier
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # GitHub may run it a few minutes late; the script never double-posts
+  workflow_dispatch:
+
+concurrency:
+  group: notify
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Post new Instantly replies to Slack
+        env:
+          INSTANTLY_API_KEY: ${{ secrets.INSTANTLY_API_KEY }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: python3 notify.py
