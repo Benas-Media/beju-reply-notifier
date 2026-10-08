@@ -2,7 +2,7 @@ name: Instantly reply notifier
 
 on:
   schedule:
-    - cron: "*/5 * * * *"   # GitHub may run it a few minutes late; the script never double-posts
+    - cron: "3-58/5 * * * *"   # off the :00/:05 rush, which GitHub delays or drops; the script never double-posts
   workflow_dispatch:
 
 concurrency:
