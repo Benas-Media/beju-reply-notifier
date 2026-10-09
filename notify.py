@@ -23,7 +23,7 @@ from zoneinfo import ZoneInfo
 
 CHANNEL = "C0C7TU7CJNN"  # #instantly-notifcations
 # Plain channel posts don't push to phones under Slack's default settings; an @mention does.
-MENTION = os.environ.get("SLACK_MENTION", "<@U0C528KBKKL>")  # Benas
+MENTION = os.environ.get("SLACK_MENTION", "<@U0C528KBKKL> <@U0C55SK8MN0>")  # Benas, Simas
 # Replies before the notifier went live were handled by hand; never backfill them.
 START_AFTER = "2026-10-08T17:48:06"
 LOOKBACK = timedelta(hours=48)
