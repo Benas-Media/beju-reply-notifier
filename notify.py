@@ -22,6 +22,8 @@ from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 CHANNEL = "C0C7TU7CJNN"  # #instantly-notifcations
+# Plain channel posts don't push to phones under Slack's default settings; an @mention does.
+MENTION = os.environ.get("SLACK_MENTION", "<@U0C528KBKKL>")  # Benas
 # Replies before the notifier went live were handled by hand; never backfill them.
 START_AFTER = "2026-10-08T17:48:06"
 LOOKBACK = timedelta(hours=48)
@@ -112,7 +114,7 @@ def main():
                 and (x.get("timestamp_email") or "") <= e["timestamp_email"])
         label = "first reply" if n == 1 else f"reply #{n} in ongoing thread"
         when = datetime.fromisoformat(e["timestamp_email"].replace("Z", "+00:00")).astimezone(TZ)
-        msg = (f":incoming_envelope: *{e.get('from_address_email')}* → {e.get('eaccount')} · "
+        msg = (f"{MENTION} :incoming_envelope: *{e.get('from_address_email')}* → {e.get('eaccount')} · "
                f"{CAMPAIGNS.get(e.get('campaign_id'), 'other')} · _{label}_ · {when:%H:%M}\n"
                f"*{e.get('subject') or '(no subject)'}*\n> {text[:300]}{'…' if len(text) > 300 else ''}\n"
                f"Reply in Unibox (inbox {e.get('eaccount')}) · ref:{e['id']}")
